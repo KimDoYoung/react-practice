@@ -254,13 +254,14 @@ API 호출 → 데이터 캐시 저장
 
 ## OrderTables.tsx, OrderForm.tsx 작성
 
--
+- 추후 react-hook-form and zod 도입
 
 ## App.tsx
 
-```
+
 ### App.tsx 의 역할 정리
-```
+
+```text
 
 App.tsx
   │
@@ -276,7 +277,8 @@ App.tsx
 ```
 
 ## 요약
-```
+
+```text
 
 HTTP 호출        axios        apiClient.ts
                               fundsApi.ts
