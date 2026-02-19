@@ -1,0 +1,54 @@
+{
+  "funds": [
+    {
+      "id": "1",
+      "name": "삼성 성장형",
+      "type": "주식형",
+      "manager": "김운용"
+    },
+    {
+      "id": "2",
+      "name": "KB 안정형",
+      "type": "채권형",
+      "manager": "이운용"
+    },
+    {
+      "id": "3",
+      "name": "미래에셋 글로벌",
+      "type": "해외주식형",
+      "manager": "박운용"
+    }
+  ],
+  "orders": [
+    {
+      "id": "1",
+      "fundId": 1,
+      "stockCode": "005930",
+      "stockName": "삼성전자",
+      "side": "BUY",
+      "qty": 100,
+      "price": 75000,
+      "status": "PENDING"
+    },
+    {
+      "id": "2",
+      "fundId": 1,
+      "stockCode": "000660",
+      "stockName": "SK하이닉스",
+      "side": "SELL",
+      "qty": 50,
+      "price": 180000,
+      "status": "PENDING"
+    },
+    {
+      "id": "8330",
+      "fundId": 2,
+      "stockCode": "005930",
+      "stockName": "삼성전자",
+      "side": "BUY",
+      "qty": 1000,
+      "price": 2342,
+      "status": "PENDING"
+    }
+  ]
+}

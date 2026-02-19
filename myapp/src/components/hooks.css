@@ -1,0 +1,311 @@
+.hooks-example {
+  padding: 20px;
+}
+
+.hooks-example h2 {
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 28px;
+  border-bottom: 3px solid #667eea;
+  padding-bottom: 10px;
+}
+
+.example-section {
+  margin-bottom: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #667eea;
+}
+
+.example-section h3 {
+  color: #667eea;
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.example-content {
+  background: white;
+  padding: 20px;
+  border-radius: 6px;
+}
+
+/* ===== 카운터 스타일 ===== */
+.counter {
+  text-align: center;
+}
+
+.counter p {
+  font-size: 18px;
+  margin: 15px 0;
+}
+
+.counter strong {
+  color: #667eea;
+  font-size: 24px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 15px;
+}
+
+.button-group button {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.button-group button:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.reset-btn {
+  background: #ff6b6b !important;
+}
+
+.reset-btn:hover {
+  background: #ee5a52 !important;
+}
+
+/* ===== 입력 필드 ===== */
+.input-field {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* ===== Todo 리스트 ===== */
+.todo-input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.todo-input-group input {
+  flex: 1;
+}
+
+.todo-input-group button {
+  padding: 10px 20px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.todo-input-group button:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+}
+
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+}
+
+.todo-list li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.todo-list li:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.todo-list li.completed span {
+  text-decoration: line-through;
+  color: #999;
+}
+
+.todo-list li.completed {
+  background: #f0f0f0;
+}
+
+.todo-list li input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.todo-list li span {
+  flex: 1;
+  word-break: break-word;
+}
+
+.todo-list li .delete-btn {
+  padding: 6px 12px;
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: all 0.3s ease;
+}
+
+.todo-list li .delete-btn:hover {
+  background: #ee5a52;
+}
+
+.todo-list .empty {
+  text-align: center;
+  color: #999;
+  border: 1px dashed #ddd;
+  background: #fafafa;
+}
+
+.info {
+  text-align: right;
+  color: #666;
+  font-size: 13px;
+  margin-top: 10px;
+}
+
+/* ===== 사용자 정보 폼 ===== */
+.user-form {
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #333;
+  font-size: 14px;
+}
+
+.form-group input {
+  width: 100%;
+}
+
+.user-info {
+  background: #f0f4ff;
+  padding: 15px;
+  border-radius: 4px;
+  border-left: 3px solid #667eea;
+}
+
+.user-info h4 {
+  margin-top: 0;
+  color: #667eea;
+}
+
+.user-info p {
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.user-info strong {
+  color: #333;
+}
+
+/* ===== 토글 ===== */
+.toggle-btn {
+  padding: 12px 24px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.toggle-btn:hover {
+  background: #764ba2;
+  transform: translateY(-2px);
+}
+
+.toggle-btn.active {
+  background: #51cf66;
+}
+
+.toggle-btn.active:hover {
+  background: #40c057;
+}
+
+.toggle-content {
+  margin-top: 15px;
+  padding: 15px;
+  background: #e7f5ff;
+  border-left: 3px solid #51cf66;
+  border-radius: 4px;
+  animation: slideDown 0.3s ease;
+}
+
+.toggle-content p {
+  margin: 0;
+  color: #333;
+  font-weight: 500;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== 반응형 ===== */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column;
+  }
+
+  .button-group button {
+    width: 100%;
+  }
+
+  .todo-input-group {
+    flex-direction: column;
+  }
+
+  .todo-list li {
+    flex-wrap: wrap;
+  }
+
+  .form-group input {
+    font-size: 16px; /* iOS에서 줌 방지 */
+  }
+}
