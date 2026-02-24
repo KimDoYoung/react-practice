@@ -99,3 +99,12 @@ function App() {
   )
 }
 ```
+
+3. 핵심개념
+
+- BrowserRouter 라우터 최상위 감싸는 컨테이너
+- Routes + Route URL에 따라 컴포넌트 매핑
+- Link 일반 페이지 이동 (<a> 대체)
+- NavLink 현재 경로 활성화 스타일 적용 가능
+- Navigate 리다이렉트 처리
+- useNavigate() 코드에서 프로그래밍 방식으로 이동
