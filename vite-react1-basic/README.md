@@ -44,4 +44,58 @@ export default defineConfig({
 
 ```
 
-##
+## pages - router
+
+1. 설치
+
+```bash
+npm install react-router-dom
+```
+
+1. pages 폴더 생성
+
+- 하위에 components를 만든다.
+
+  ```ts
+  // src/pages/Dashboard.tsx
+  const Dashboard = () => <div><h2 className="text-2xl font-bold">대시보드</h2></div>
+  export default Dashboard
+
+  // src/pages/Orders.tsx
+  const Orders = () => <div><h2 className="text-2xl font-bold">주문관리</h2></div>
+  export default Orders
+
+  // src/pages/Funds.tsx
+  const Funds = () => <div><h2 className="text-2xl font-bold">펀드현황</h2></div>
+  export default Funds
+ 
+  ```
+
+1. App.tsx에 router 설치
+  
+```ts
+function App() {
+  return (
+    <BrowserRouter>
+      <div className="flex flex-col h-screen">
+        <Header />
+
+        <div className="flex flex-1 overflow-hidden">
+          <Sidebar />
+          <main className="flex-1 p-6 overflow-auto bg-white">
+            <Routes>
+              <Route path="/" element={<Navigate to="/dashboard" />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/funds" element={<Funds />} />
+              {/* 다른 라우트 추가 가능 */}
+            </Routes>
+          </main>
+        </div>
+
+        <Footer />
+      </div>
+    </BrowserRouter>
+  )
+}
+```
