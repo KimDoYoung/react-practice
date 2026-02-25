@@ -203,3 +203,33 @@ const Sidebar = () => {
 | **주요 용도** | 상수, 유틸 함수, 타입(Type) | 컴포넌트, 클래스, Store |
 | **Java 비유** | `public static` 멤버들 | 파일의 메인 `public class` |
 
+
+## cn 유틸리티의 사용
+
+- class명을 붙이는 유틸리티
+- libs/class-utils.ts
+- clsx와 중복클래스를 제거
+- clsx는 문자열을 붙이고 tw-merge는 중복클래스를 제거한다
+
+### 설치
+
+```bash
+npm install clsx tailwind-merge
+```
+
+## json-server를 이용한 tanstack query 
+
+### 설치
+
+- 패키지 설치
+```bash
+npm install axios @tanstack/react-query
+npm install -D json-server
+```
+- package.json 수정
+```json
+  "scripts": {
+    ...
+    "server" : "json-server --watch db.json --port 3001"
+```
+

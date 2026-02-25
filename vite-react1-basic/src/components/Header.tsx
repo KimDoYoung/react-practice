@@ -1,16 +1,16 @@
-import { getFormattedDate } from '@/utils/date-util';
+import { cn } from '@/libs/class-utils';
+import { getFormattedDate } from '@/libs/date-util';
 import useMenuStore  from "@/stores/menuStore";
 
 type Section = 'Backend' | 'Frontend' | 'AI';
 const Sections: Section[] = ['Backend', 'Frontend', 'AI'];
 
-const getAnchorClassName = (section: Section, activeSection: Section) => {
-  return `transition-colors cursor-pointer ${
-    activeSection === section
-      ? 'text-white font-bold underline underline-offset-4'
-      : 'text-blue-200 hover:text-white'
-  }`;
-};
+const getAnchorClassName = (section: Section, activeSection: Section) => cn(
+  'transition-colors cursor-pointer',
+  activeSection === section
+    ? 'text-white font-bold underline underline-offset-4'
+    : 'text-blue-200 hover:text-white'
+);
 
 const Header = () => {
   const dateString = getFormattedDate();
