@@ -219,6 +219,10 @@ npm install clsx tailwind-merge
 
 ## json-server를 이용한 tanstack query 
 
+### 특징
+
+- cache를 관리한다.
+
 ### 설치
 
 - 패키지 설치
@@ -233,3 +237,75 @@ npm install -D json-server
     "server" : "json-server --watch db.json --port 3001"
 ```
 
+### 구현
+
+1. main.tsx에 
+```tsx
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60, // 1 minute
+      retry : 1, // Retry failed requests once
+    },
+  },
+})
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <QueryClientProvider client={queryClient}> 
+      <App />
+    </QueryClientProvider>
+  </StrictMode>,
+)
+```
+- QueryClient      → 캐시/상태 관리하는 저장소 생성
+- QueryClientProvider → 앱 전체에 그 저장소를 공급
+- Zustand의 store가 전역으로 접근 가능한 것처럼, `QueryClientProvider`로 앱 전체를 감싸야 **어느 컴포넌트에서든** `useQuery`, `useMutation`을 쓸 수 있게 됩니다.
+
+> Zustand의 create()로 store 만들고 앱 어디서나 useStore()로 쓰는 것과 비슷한 개념입니다. TanStack Query는 그 공급 과정을 Provider로 명시적으로 해줘야 한다는 차이가 있습니다.
+
+1. apiClient.ts : axios.create 를 하고 주고 받을 때 interceptor를 구현해 둔다.
+   - request하기전데 token등 삽입
+   - response한 후에 error가 있으면 에러로그 인쇄
+2. api/apiFund.ts
+   1. `api` 폴더에  apiFund의 crud api함수를 만든다.
+3. 각 component에서 사용
+```tsx
+    const { data, isLoading, isError, error } = useQuery({
+        queryKey: ['funds'],
+        queryFn: fetchFunds,
+    });
+
+    if (isLoading) return <div className="p-6 text-gray-500">로딩 중...</div>
+    if (isError)   return <div className="p-6 text-red-500">에러: {String(error)}</div>
+
+                <tbody>
+                {data?.map((fund) => (
+                    <tr key={fund.id} className="hover:bg-gray-50">
+                        <td className="border border-gray-300 px-4 py-2">{fund.id}</td>
+```
+---
+
+### 전체흐름
+
+```text
+json-server (port 3001)
+    ↓  HTTP GET /funds
+apiClient.ts (axios 인터셉터)
+    ↓
+fundApi.ts (fetchFunds)
+    ↓
+useQuery({ queryKey: ['funds'], queryFn: fetchFunds })
+    ↓
+isLoading → isError → data 순으로 처리
+    ↓
+테이블 렌더링
+```
+
+### useMutation
+
+- Mutation의 사전적 정의는 "돌연변이" 또는 **"변화"**입니다.
+- 데이터를 다룰 때 Mutation은 단순히 데이터를 읽어오는 것(Read)이 아니라, 기존의 데이터를 "변형"시키거나 "새로 만드는" 모든 행위를 뜻합니다.
+  
