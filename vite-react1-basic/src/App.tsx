@@ -1,13 +1,12 @@
 
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
-import './App.css'
 import Footer from './components/Footer'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
-import Funds from './pages/Funds'
-import Orders from './pages/Orders'
-import Dashboard from './pages/Dashboard'
+import { MENU_MAP } from './constants/menuConfig'
+import componentRegistry from './registry/componentRegistry';
 
+const allMenuItems = Object.values(MENU_MAP).flat();
 
 function App() {
   return (
@@ -19,11 +18,11 @@ function App() {
           <Sidebar />
           <main className="flex-1 p-6 overflow-auto bg-white">
             <Routes>
-              <Route path="/" element={<Navigate to="/dashboard" />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/funds" element={<Funds />} />
-              {/* 다른 라우트 추가 가능 */}
+              <Route path="/" element={<Navigate to="/backend/springboot" replace />} />
+              {allMenuItems.map((item) => {
+                const Component = componentRegistry[item.component];
+                return <Route key={item.path} path={item.path} element={<Component />} />;
+              })}
             </Routes>
           </main>
         </div>

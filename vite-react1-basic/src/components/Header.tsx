@@ -1,12 +1,33 @@
+import { getFormattedDate } from '@/utils/date-util';
+import useMenuStore  from "@/stores/menuStore";
+
+type Section = 'Backend' | 'Frontend' | 'AI';
+const Sections: Section[] = ['Backend', 'Frontend', 'AI'];
+
+
 const Header = () => {
+  const dateString = getFormattedDate();
+  const {activeSection, setSection} = useMenuStore();
+
   return (
     <header className="bg-blue-500 text-white h-16 flex items-center px-6 shadow-md">
-      <div className="text-xl font-bold">MyApp</div>
-      <nav className="ml-auto flex gap-6">
-        <a href="#" className="hover:text-blue-200 transition-colors">홈</a>
-        <a href="#" className="hover:text-blue-200 transition-colors">서비스</a>
-        <a href="#" className="hover:text-blue-200 transition-colors">설정</a>
+      <div className="text-xl font-bold">Oms-technote</div>
+      <nav className="flex gap-6 ml-6">
+        {Sections.map((section) => (
+          <a
+            key={section}
+            className={`transition-colors cursor-pointer ${
+              activeSection === section
+                ? 'text-white font-bold underline underline-offset-4'
+                : 'text-blue-200 hover:text-white'
+            }`}
+            onClick={() => setSection(section)}
+          >
+            {section}
+          </a>
+        ))}
       </nav>
+      <div className="ml-auto mr-6 text-sm">{dateString}</div>
     </header>
   )
 }

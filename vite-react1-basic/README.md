@@ -108,3 +108,35 @@ function App() {
 - NavLink 현재 경로 활성화 스타일 적용 가능
 - Navigate 리다이렉트 처리
 - useNavigate() 코드에서 프로그래밍 방식으로 이동
+
+
+## component tree
+
+- React 개발은 **"이 UI를 어떤 단위로 쪼갤까?"** 를 고민하는 작업
+```text
+src/
+├── components/       ← 여러 페이지에서 공통으로 쓰는 것
+│   ├── Header.tsx
+│   ├── Sidebar.tsx
+│   ├── Footer.tsx
+│   └── common/
+│       ├── StatsCard.tsx
+│       └── DataTable.tsx
+├── pages/            ← 라우터에 연결되는 페이지 단위
+│   ├── Dashboard.tsx
+│   ├── Orders.tsx
+│   └── Funds.tsx
+└── App.tsx
+```
+
+## import문법
+
+
+| 구분 | Named Export | Default Export |
+| :--- | :--- | :--- |
+| **문법 (내보내기)** | `export const ...` | `export default ...` |
+| **문법 (가져오기)** | `import { 정확한이름 }` | `import 이름자유롭게` |
+| **중괄호 사용** | **필수 `{ }`** | **중괄호 없음** |
+| **파일당 개수** | **여러 개 가능 ✅** | **단 하나만 가능** |
+| **주요 용도** | 상수, 유틸 함수, 타입(Type) | 컴포넌트, 클래스, Store |
+| **Java 비유** | `public static` 멤버들 | 파일의 메인 `public class` |
