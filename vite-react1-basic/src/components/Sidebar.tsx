@@ -8,7 +8,7 @@ const getNavClassName = ({ isActive }: { isActive: boolean }) =>  `px-6 py-3 tra
 const Sidebar = () => {
   const { activeSection, menuItems } = useMenuStore();
   return (
-    <aside className="bg-gray-800 text-white w-60 min-h-full flex flex-col py-4">
+    <aside className="bg-gray-700 text-white w-60 min-h-full flex flex-col py-4">
       <div className="px-6 py-3 font-bold text-lg">{activeSection}</div>
       {menuItems.map((item) => (
         <NavLink

@@ -129,6 +129,68 @@ src/
 └── App.tsx
 ```
 
+## zustand의 사용
+
+- Header와 Sidebar는 부모-자식 관계가 아니라 형제 관계이기 때문에 props로 전달하기 어렵습니다.
+- Header에서 **담고** Sidebar에서 **사용**
+
+### store만들기
+
+```ts
+import {create} from 'zustand';
+
+import { type Section, type MenuItem} from '@/types/menu';
+import { MENU_MAP } from '@/constants/menuConfig';
+
+interface MenuState {
+    activeSection: Section;
+    menuItems: MenuItem[];
+    setSection: (section: Section) => void;
+}
+
+const useMenuStore = create<MenuState>((set) => ({
+    activeSection: 'Backend',
+    menuItems: MENU_MAP['Backend'],
+    setSection: (section) => set(() => ({
+        activeSection: section,
+        menuItems: MENU_MAP[section],
+    })),
+}));
+
+export default useMenuStore;
+```
+### Header에서 담기
+```ts
+const Header = () => {
+  const dateString = getFormattedDate();
+  const {activeSection, setSection} = useMenuStore();
+
+  return (
+    <header className="bg-blue-500 text-white h-16 flex items-center px-6 shadow-md">
+      <div className="text-xl font-bold">Oms-technote</div>
+      <nav className="flex gap-6 ml-6">
+        {Sections.map((section) => (
+          <a
+            key={section}
+            className={getAnchorClassName(section, activeSection)}
+            onClick={() => setSection(section)}
+          >
+            {section}
+          </a>
+        ))}
+      </nav>
+      <div className="ml-auto mr-6 text-sm">{dateString}</div>
+    </header>
+  )
+}
+```
+### Sidebar에서 사용
+```ts
+const Sidebar = () => {
+  const { activeSection, menuItems } = useMenuStore();
+  ...
+```
+
 ## import문법
 
 
@@ -140,3 +202,4 @@ src/
 | **파일당 개수** | **여러 개 가능 ✅** | **단 하나만 가능** |
 | **주요 용도** | 상수, 유틸 함수, 타입(Type) | 컴포넌트, 클래스, Store |
 | **Java 비유** | `public static` 멤버들 | 파일의 메인 `public class` |
+
