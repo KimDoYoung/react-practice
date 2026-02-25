@@ -18,7 +18,7 @@ function App() {
           <Sidebar />
           <main className="flex-1 p-6 overflow-auto bg-white">
             <Routes>
-              <Route path="/" element={<Navigate to="/backend/springboot" replace />} />
+              <Route path="/" element={<Navigate to="/backend/api-docs" replace />} />
               {allMenuItems.map((item) => {
                 const Component = componentRegistry[item.component];
                 return <Route key={item.path} path={item.path} element={<Component />} />;

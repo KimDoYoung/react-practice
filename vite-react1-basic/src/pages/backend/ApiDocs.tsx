@@ -1,13 +1,26 @@
-import { useQuery, useQueryClient} from '@tanstack/react-query';
-import { fetchFunds } from '@/api/funcApi';
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
+import { deleteFund, fetchFunds } from '@/api/funcApi';
 
 const ApiDocs = () => {
     const queryClient = useQueryClient()
+
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ['funds'],
         queryFn: async () => {
             await new Promise(resolve => setTimeout(resolve, 3000)); // Simulate network delay
             return fetchFunds();
+        }
+    });
+    const deleteMutation = useMutation({
+        mutationFn: async (id: number) => {
+            await new Promise((resolve) => setTimeout(resolve, 2000)) // 2초 딜레이
+            return deleteFund(id);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['funds']});
+        },
+        onError: (error) => {
+            console.error('펀드 삭제 실패:', error);
         }
     });
 
@@ -30,6 +43,7 @@ const ApiDocs = () => {
                     <th className="border border-gray-300 px-4 py-2">유형</th>
                     <th className="border border-gray-300 px-4 py-2">기준가</th>
                     <th className="border border-gray-300 px-4 py-2">상태</th>
+                    <th className="border border-gray-300 px-4 py-2">액션</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -40,6 +54,12 @@ const ApiDocs = () => {
                         <td className="border border-gray-300 px-4 py-2">{fund.type}</td>
                         <td className="border border-gray-300 px-4 py-2">{fund.nav}</td>
                         <td className="border border-gray-300 px-4 py-2">{fund.status}</td>
+                        <td className="border border-gray-300 px-4 py-2">
+                            <button className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                                    onClick={() => deleteMutation.mutate(fund.id)}
+                                    disabled={deleteMutation.isPending}
+                            >{deleteMutation.isPending && deleteMutation.variables === fund.id ? '삭제 중...' : '삭제'}</button>
+                        </td>
                     </tr>
                 ))}
                 </tbody>

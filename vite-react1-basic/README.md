@@ -100,7 +100,7 @@ function App() {
 }
 ```
 
-3. 핵심개념
+1. 핵심개념
 
 - BrowserRouter 라우터 최상위 감싸는 컨테이너
 - Routes + Route URL에 따라 컴포넌트 매핑
@@ -109,10 +109,10 @@ function App() {
 - Navigate 리다이렉트 처리
 - useNavigate() 코드에서 프로그래밍 방식으로 이동
 
-
 ## component tree
 
 - React 개발은 **"이 UI를 어떤 단위로 쪼갤까?"** 를 고민하는 작업
+
 ```text
 src/
 ├── components/       ← 여러 페이지에서 공통으로 쓰는 것
@@ -159,7 +159,9 @@ const useMenuStore = create<MenuState>((set) => ({
 
 export default useMenuStore;
 ```
+
 ### Header에서 담기
+
 ```ts
 const Header = () => {
   const dateString = getFormattedDate();
@@ -184,7 +186,9 @@ const Header = () => {
   )
 }
 ```
+
 ### Sidebar에서 사용
+
 ```ts
 const Sidebar = () => {
   const { activeSection, menuItems } = useMenuStore();
@@ -192,7 +196,6 @@ const Sidebar = () => {
 ```
 
 ## import문법
-
 
 | 구분 | Named Export | Default Export |
 | :--- | :--- | :--- |
@@ -202,7 +205,6 @@ const Sidebar = () => {
 | **파일당 개수** | **여러 개 가능 ✅** | **단 하나만 가능** |
 | **주요 용도** | 상수, 유틸 함수, 타입(Type) | 컴포넌트, 클래스, Store |
 | **Java 비유** | `public static` 멤버들 | 파일의 메인 `public class` |
-
 
 ## cn 유틸리티의 사용
 
@@ -217,7 +219,7 @@ const Sidebar = () => {
 npm install clsx tailwind-merge
 ```
 
-## json-server를 이용한 tanstack query 
+## json-server를 이용한 tanstack query
 
 ### 특징
 
@@ -226,11 +228,14 @@ npm install clsx tailwind-merge
 ### 설치
 
 - 패키지 설치
+
 ```bash
 npm install axios @tanstack/react-query
 npm install -D json-server
 ```
+
 - package.json 수정
+
 ```json
   "scripts": {
     ...
@@ -239,7 +244,8 @@ npm install -D json-server
 
 ### 구현
 
-1. main.tsx에 
+1. main.tsx에
+
 ```tsx
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
@@ -260,6 +266,7 @@ createRoot(document.getElementById('root')!).render(
   </StrictMode>,
 )
 ```
+
 - QueryClient      → 캐시/상태 관리하는 저장소 생성
 - QueryClientProvider → 앱 전체에 그 저장소를 공급
 - Zustand의 store가 전역으로 접근 가능한 것처럼, `QueryClientProvider`로 앱 전체를 감싸야 **어느 컴포넌트에서든** `useQuery`, `useMutation`을 쓸 수 있게 됩니다.
@@ -272,6 +279,7 @@ createRoot(document.getElementById('root')!).render(
 2. api/apiFund.ts
    1. `api` 폴더에  apiFund의 crud api함수를 만든다.
 3. 각 component에서 사용
+
 ```tsx
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ['funds'],
@@ -286,6 +294,7 @@ createRoot(document.getElementById('root')!).render(
                     <tr key={fund.id} className="hover:bg-gray-50">
                         <td className="border border-gray-300 px-4 py-2">{fund.id}</td>
 ```
+
 ---
 
 ### 전체흐름
@@ -304,8 +313,58 @@ isLoading → isError → data 순으로 처리
 테이블 렌더링
 ```
 
+### tanstack query의 철학
+
+- **stale-while-revalidate 전략**
+- 캐시 데이터를 먼저 보여줘서 빠른 UX제공
+- 백그라운드에서 최신 데이터 확인 후 교체
+
 ### useMutation
 
 - Mutation의 사전적 정의는 "돌연변이" 또는 **"변화"**입니다.
 - 데이터를 다룰 때 Mutation은 단순히 데이터를 읽어오는 것(Read)이 아니라, 기존의 데이터를 "변형"시키거나 "새로 만드는" 모든 행위를 뜻합니다.
   
+## react hook form 과 zod
+
+### zod란?
+
+- 스키마 기반 유효성 검사 라이브러리입니다. react-hook-form과 단짝처럼 같이 쓰입니다.
+- 스키마를 한 곳에서 관리
+
+```ts
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
+
+// 스키마 정의 (타입 + 유효성 검사 한번에)
+const fundSchema = z.object({
+  name: z.string().min(2).max(50),
+  nav: z.number().min(0).max(999999),
+  startDate: z.string(),
+  endDate: z.string(),
+}).refine(
+  (data) => data.endDate > data.startDate,
+  { message: '종료일은 시작일 이후여야 합니다' }  // 필드 간 비교 검증
+)
+
+// 타입 자동 생성
+type FundFormData = z.infer<typeof fundSchema>
+
+// useForm에 resolver로 연결
+const { register, handleSubmit } = useForm<FundFormData>({
+  resolver: zodResolver(fundSchema),
+})
+
+// input은 깔끔해짐
+{...register('name')}
+{...register('nav', { valueAsNumber: true })}
+```
+
+### 설치
+
+```bash
+npm install zod @hookform/resolvers
+```
+
+### types/fund.ts
+
+- zod를 이용한 타입설정
