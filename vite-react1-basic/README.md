@@ -388,3 +388,25 @@ npx shadcn@latest init
 - react-hook-form + zod + shadn 으로 validation수행
 - [React Hook Form](https://ui.shadcn.com/docs/forms/react-hook-form)의 사용
 - <Controller></Controller> 의 사용
+
+
+## Form 컴포넌트 작성
+
+1. zod에 맞추어서 Schema를 만든다.
+2. import useForm, zodResolver, form의 Schema
+3. Props 인터페이스 작성
+4. 함수 정의 작성 
+5. const form = useForm 
+6. return (Controller로 작성)
+```jsx
+<Controller name="name" control={form.control} render={...} />
+<Controller
+    name="name"           // ← 필드 이름 (fundSchema의 키와 일치해야 함)
+    control={form.control} // ← useForm과 연결하는 연결고리
+    render={({ field, fieldState }) => (
+        // field     : 값과 핸들러
+        // fieldState: 이 필드의 현재 상태
+        ...
+    )}
+/>
+```
