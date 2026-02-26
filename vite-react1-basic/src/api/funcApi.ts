@@ -1,12 +1,5 @@
 import apiClient from "@/lib/apiClient";
-
-export interface Fund {
-    id: number;
-    name: string;
-    type: string;
-    nav: number;
-    status: string;
-}
+import type { Fund, FundFormData } from "@/types/fund";
 
 // 목록조회
 export const fetchFunds = async (): Promise<Fund[]> => {

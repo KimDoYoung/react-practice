@@ -1,6 +1,6 @@
 import {useForm, Controller} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
-import { fundSchema, type FundFormData } from "@/types/fund";
+import { fundSchema, type Fund, type FundFormData } from "@/types/fund";
 
 import {
     Field,
@@ -25,16 +25,17 @@ interface Props {
     onSubmit: (data: FundFormData) => void;
     onCancel: () => void;
     isPending: boolean;
+    initialData?: Fund;
 }
 
-const FundForm: React.FC<Props> = ({ onSubmit, onCancel, isPending }: Props) => {
+const FundForm: React.FC<Props> = ({ onSubmit, onCancel, isPending, initialData }: Props) => {
     const form = useForm<FundFormData>({
         resolver: zodResolver(fundSchema),
         defaultValues: {
-            name:"",
-            type: "주식형",
-            nav: 0,
-            status: '운용중',
+            name: initialData?.name || "",
+            type: initialData?.type || "주식형",
+            nav: initialData?.nav || 0,
+            status: initialData?.status || '운용중',
         },
     });
 
@@ -150,7 +151,7 @@ const FundForm: React.FC<Props> = ({ onSubmit, onCancel, isPending }: Props) => 
                 {/* 버튼 */}
                 <Field orientation="horizontal" className="flex gap-2 justify-end">
                     <Button type="submit" disabled={isPending}>
-                        {isPending ? "저장 중..." : "저장"}
+                        {isPending ? "저장 중..." : initialData ? "수정" : "저장"}
                     </Button>
                     <Button type="button" variant="outline" onClick={onCancel} disabled={isPending}>
                         취소

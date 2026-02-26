@@ -1,12 +1,13 @@
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query';
-import { createFund, deleteFund, fetchFunds } from '@/api/funcApi';
+import { createFund, deleteFund, fetchFunds, updateFund } from '@/api/funcApi';
 import FundForm from '@/components/FundForm';
-import type { FundFormData } from "@/types/fund";
+import type { Fund, FundFormData } from "@/types/fund";
 import { useState } from 'react';
 
 const ApiDocs = () => {
     const queryClient = useQueryClient()
     const [showForm, setShowForm] = useState(false);
+    const [editTarget, setEditTarget] = useState<Fund | null>(null);
 
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ['funds'],
@@ -37,6 +38,17 @@ const ApiDocs = () => {
             console.error('펀드 생성 실패:', error);
         }        
     });
+    const updateMutation = useMutation({
+        mutationFn: (data: Fund) => updateFund(editTarget!.id, data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ['funds']});
+            setEditTarget(null);
+        },
+        onError: (error) => {
+            console.error('펀드 업데이트 실패:', error);
+        }        
+    });
+    
 
     if (isLoading) return <div className="p-6 text-gray-500">로딩 중...</div>
     if (isError)   return <div className="p-6 text-red-500">에러: {String(error)}</div>
@@ -55,11 +67,21 @@ const ApiDocs = () => {
                 {showForm ? '폼 닫기' : '펀드 추가'}
             </button>
             <div className="w-full">
+            {/* 등록 폼 */}
             {showForm && (
                 <FundForm
                     onSubmit={(data) => createMutation.mutate(data)}
                     onCancel={() => setShowForm(false)}
                     isPending={createMutation.isPending}
+                />
+            )}
+            {/* 수정 폼 */}
+            {editTarget && (
+                <FundForm
+                    onSubmit={(data) => updateMutation.mutate({...data, id: editTarget.id})}
+                    onCancel={() => setEditTarget(null)}
+                    isPending={updateMutation.isPending}
+                    initialData={editTarget}
                 />
             )}
             </div>
@@ -83,10 +105,18 @@ const ApiDocs = () => {
                         <td className="border border-gray-300 px-4 py-2">{fund.nav}</td>
                         <td className="border border-gray-300 px-4 py-2">{fund.status}</td>
                         <td className="border border-gray-300 px-4 py-2">
+                            <button className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors mr-2"
+                                    onClick={() => {setShowForm(false); setEditTarget(fund)}}
+                                    disabled={updateMutation.isPending}
+                            >
+                                {updateMutation.isPending && updateMutation.variables?.id === fund.id ? '업데이트 중...' : '수정'}
+                            </button>
                             <button className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
                                     onClick={() => deleteMutation.mutate(fund.id)}
                                     disabled={deleteMutation.isPending}
-                            >{deleteMutation.isPending && deleteMutation.variables === fund.id ? '삭제 중...' : '삭제'}</button>
+                            >
+                                {deleteMutation.isPending && deleteMutation.variables === fund.id ? '삭제 중...' : '삭제'}
+                            </button>
                         </td>
                     </tr>
                 ))}
