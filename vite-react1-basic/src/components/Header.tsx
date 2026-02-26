@@ -1,5 +1,5 @@
-import { cn } from '@/libs/class-utils';
-import { getFormattedDate } from '@/libs/date-util';
+import { cn } from '@/lib/class-utils';
+import { getFormattedDate } from '@/lib/date-util';
 import useMenuStore  from "@/stores/menuStore";
 
 type Section = 'Backend' | 'Frontend' | 'AI';

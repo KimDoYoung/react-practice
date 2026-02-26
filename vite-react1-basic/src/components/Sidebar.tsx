@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import useMenuStore from '@/stores/menuStore'
-import { cn } from '@/libs/class-utils'
+import { cn } from '@/lib/class-utils'
 
 const getNavClassName = ({ isActive }: { isActive: boolean }) => cn(
   'px-6 py-3 transition-colors',

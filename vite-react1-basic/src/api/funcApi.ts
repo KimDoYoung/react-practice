@@ -1,4 +1,4 @@
-import apiClient from "@/libs/apiClient";
+import apiClient from "@/lib/apiClient";
 
 export interface Fund {
     id: number;
