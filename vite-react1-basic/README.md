@@ -368,3 +368,23 @@ npm install zod @hookform/resolvers
 ### types/fund.ts
 
 - zod를 이용한 타입설정
+
+
+
+## shadcn
+
+- 이것을 사용해야하는가?
+- Radix UI + tailwindcss 를 바탕으로 만들어진 UI lib
+- 설치가 아니라 **복사**이다. 즉 내 프로젝트에 복사해서 내가 맘대로 수정가능하다.
+
+### 설치
+- slate 선택
+```bash
+npx shadcn@latest init
+```
+
+### form의 사용
+
+- react-hook-form + zod + shadn 으로 validation수행
+- [React Hook Form](https://ui.shadcn.com/docs/forms/react-hook-form)의 사용
+- <Controller></Controller> 의 사용
