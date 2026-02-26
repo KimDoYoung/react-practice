@@ -1,0 +1,47 @@
+
+## 설치
+
+- project 명 : my-shadcn
+
+1. 프로젝트의 생성
+	1. npm create vite@latest my-shadcn -- --template react-swc-ts
+	2. cd my-shadcn
+2. Tailwind css v4 및 관련 도구 설치
+	1. npm install tailwindcss @tailwindcss/vite
+	2. npm install -D @types/node
+3. src/index.css 설정
+```css
+@import "tailwindcss"
+```
+4. tsconfig.json 설정
+```json
+{
+  "compilerOptions": {
+    // ... 기존 설정 유지
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  }
+}
+```
+5. vite.config.ts 
+```ts
+import path from "path"
+import react from "@vitejs/plugin-react-swc"
+import tailwindcss from "@tailwindcss/vite"
+import { defineConfig } from "vite"
+
+export default defineConfig({
+  plugins: [react(), tailwindcss()],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+})
+```
+6. shadcn-ui 초기화
+```bash
+npx shadcn@latest init
+```
