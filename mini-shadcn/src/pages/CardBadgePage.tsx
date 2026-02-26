@@ -51,7 +51,7 @@ export default function CardBadgePage() {
                 <div className="space-y-2">
                     <p className="text-sm text-slate-500">주문 상태</p>
                     <div className="flex gap-3">
-                        <Badge variant="secondary">   PENDING   </Badge>
+                        <Badge variant="outline">   PENDING   </Badge>
                         <Badge variant="default">     CONFIRMED  </Badge>
                         <Badge variant="destructive"> CANCELLED  </Badge>
                     </div>
@@ -59,8 +59,8 @@ export default function CardBadgePage() {
                 <div className="space-y-2">
                     <p className="text-sm text-slate-500">매수 / 매도</p>
                     <div className="flex gap-3">
-                        <Badge variant="default"> 매수 BUY  </Badge>
-                        <Badge variant="outline"> 매도 SELL </Badge>
+                        <Badge variant="default" className="text-green-500"> 매수 BUY  </Badge>
+                        <Badge variant="outline" className="text-red-500 bg-amber-100 p-2"> 매도 SELL </Badge>
                     </div>
                 </div>
             </section>

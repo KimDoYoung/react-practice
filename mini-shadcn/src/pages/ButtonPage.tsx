@@ -14,6 +14,7 @@ export default function ButtonPage() {
                     <Button variant="ghost">       ghost       </Button>
                     <Button variant="destructive"> destructive </Button>
                     <Button variant="link">        link        </Button>
+                    <Button variant="myVariant">     myVariant    </Button>
                 </div>
             </section>
 
