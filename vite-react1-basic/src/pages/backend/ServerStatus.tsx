@@ -14,8 +14,8 @@ const ServerStatus = () => {
             {isShowForm ? "폼 닫기" : "펀드 추가"}
             </Button>
             {isShowForm && 
-                <div className="w-full px-100 py-4 mt-4 bg-gray-200 rounded">
-                    <form  className="bg-blue-50 border border-gray-200 rounded p-4 mb-6">
+                <div className="w-full px-100 py-4 mt-4 bg-muted rounded">
+                    <form  className="bg-card border border-border rounded p-4 mb-6">
                         <FieldGroup className="flex gap-4 items-end flex-wrap">
                             <Field className="mb-2">
                                 <FieldLabel htmlFor="fundName">펀드명</FieldLabel>

@@ -3,6 +3,9 @@ import { createFund, deleteFund, fetchFunds, updateFund } from '@/api/funcApi';
 import FundForm from '@/components/FundForm';
 import type { Fund, FundFormData } from "@/types/fund";
 import { useState } from 'react';
+import { OmsStatusBadge } from '@/components/common/oms-status-badge';
+import OmsIconButton from '@/components/common/oms-icon-button';
+import {Pencil, CircleX, RotateCw} from 'lucide-react';
 
 const ApiDocs = () => {
     const queryClient = useQueryClient()
@@ -50,22 +53,16 @@ const ApiDocs = () => {
     });
     
 
-    if (isLoading) return <div className="p-6 text-gray-500">로딩 중...</div>
-    if (isError)   return <div className="p-6 text-red-500">에러: {String(error)}</div>
+    if (isLoading) return <div className="p-6 text-muted-foreground">로딩 중...</div>
+    if (isError)   return <div className="p-6 text-destructive">에러: {String(error)}</div>
 
 
     return (
         <div className="p-6">
             <h1 className="text-2xl font-bold mb-4">펀드 목록</h1>
             
-            <button className="mb-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-                    onClick={() => queryClient.invalidateQueries({queryKey: ['funds']})}
-            >새로고침</button>
-            <button className="mb-4 ml-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-                    onClick={() => setShowForm(prev => !prev)}
-            >
-                {showForm ? '폼 닫기' : '펀드 추가'}
-            </button>
+            <OmsIconButton icon={RotateCw} variant="outline" label="새로고침" onClick={() => queryClient.invalidateQueries({queryKey: ['funds']})} className="mb-4 mx-1" />
+            <OmsIconButton icon={showForm ? CircleX : Pencil} variant="outline" onClick={() => setShowForm(prev => !prev)} label={showForm ? '폼 닫기' : '펀드 추가'} />
             <div className="w-full">
             {/* 등록 폼 */}
             {showForm && (
@@ -85,33 +82,35 @@ const ApiDocs = () => {
                 />
             )}
             </div>
-            <table className="min-w-full bg-white border">
-                <thead className="bg-gray-100">
+            <table className="min-w-full bg-card text-card-foreground border border-border">
+                <thead className="bg-muted">
                 <tr>
-                    <th className="border border-gray-300 px-4 py-2">ID</th>
-                    <th className="border border-gray-300 px-4 py-2">펀드명</th>
-                    <th className="border border-gray-300 px-4 py-2">유형</th>
-                    <th className="border border-gray-300 px-4 py-2">기준가</th>
-                    <th className="border border-gray-300 px-4 py-2">상태</th>
-                    <th className="border border-gray-300 px-4 py-2">액션</th>
+                    <th className="border border-border px-4 py-2">ID</th>
+                    <th className="border border-border px-4 py-2">펀드명</th>
+                    <th className="border border-border px-4 py-2">유형</th>
+                    <th className="border border-border px-4 py-2">기준가</th>
+                    <th className="border border-border px-4 py-2">상태</th>
+                    <th className="border border-border px-4 py-2">액션</th>
                 </tr>
                 </thead>
                 <tbody>
                 {data?.map((fund) => (
-                    <tr key={fund.id} className="hover:bg-gray-50">
-                        <td className="border border-gray-300 px-4 py-2">{fund.id}</td>
-                        <td className="border border-gray-300 px-4 py-2">{fund.name}</td>
-                        <td className="border border-gray-300 px-4 py-2">{fund.type}</td>
-                        <td className="border border-gray-300 px-4 py-2">{fund.nav}</td>
-                        <td className="border border-gray-300 px-4 py-2">{fund.status}</td>
-                        <td className="border border-gray-300 px-4 py-2">
-                            <button className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600 transition-colors mr-2"
+                    <tr key={fund.id} className="hover:bg-muted/50">
+                        <td className="border border-border px-4 py-2">{fund.id}</td>
+                        <td className="border border-border px-4 py-2">{fund.name}</td>
+                        <td className="border border-border px-4 py-2">{fund.type}</td>
+                        <td className="border border-border px-4 py-2 font-mono text-right">{fund.nav}</td>
+                        <td className="border border-border px-4 py-2">
+                            <OmsStatusBadge status={fund.status === "청산" ? "error" : "success"} label={fund.status} showIcon />
+                        </td>
+                        <td className="border border-border px-4 py-2">
+                            <button className="px-2 py-1 bg-secondary text-secondary-foreground rounded hover:bg-secondary/80 transition-colors mr-2"
                                     onClick={() => {setShowForm(false); setEditTarget(fund)}}
                                     disabled={updateMutation.isPending}
                             >
                                 {updateMutation.isPending && updateMutation.variables?.id === fund.id ? '업데이트 중...' : '수정'}
                             </button>
-                            <button className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                            <button className="px-2 py-1 bg-destructive text-primary-foreground rounded hover:bg-destructive/80 transition-colors"
                                     onClick={() => deleteMutation.mutate(fund.id)}
                                     disabled={deleteMutation.isPending}
                             >

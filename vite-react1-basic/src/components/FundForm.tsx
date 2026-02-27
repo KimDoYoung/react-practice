@@ -40,7 +40,7 @@ const FundForm: React.FC<Props> = ({ onSubmit, onCancel, isPending, initialData 
     });
 
     return (
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-200 bg-gray-50 border border-gray-200 rounded p-4 mb-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="w-200 bg-muted border border-border rounded p-4 mb-6">
             <FieldGroup className="flex gap-4 items-end flex-wrap">
                 {/* 펀드명 */}
                 <Controller
