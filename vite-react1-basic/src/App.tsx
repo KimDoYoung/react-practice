@@ -16,7 +16,7 @@ function App() {
 
         <div className="flex flex-1 overflow-hidden">
           <Sidebar />
-          <main className="flex-1 p-6 overflow-auto bg-white">
+          <main className="flex-1 p-6 overflow-auto bg-background transition-colors duration-300">
             <Routes>
               <Route path="/" element={<Navigate to="/backend/api-docs" replace />} />
               {allMenuItems.map((item) => {
