@@ -99,7 +99,7 @@ const ApiDocs = () => {
                         <td className="border border-border px-4 py-2">{fund.id}</td>
                         <td className="border border-border px-4 py-2">{fund.name}</td>
                         <td className="border border-border px-4 py-2">{fund.type}</td>
-                        <td className="border border-border px-4 py-2 font-mono text-right">{fund.nav}</td>
+                        <td className="border border-border px-4 py-2 font-mono text-right">{fund.nav?.toLocaleString()}</td>
                         <td className="border border-border px-4 py-2">
                             <OmsStatusBadge status={fund.status === "청산" ? "error" : "success"} label={fund.status} showIcon />
                         </td>
